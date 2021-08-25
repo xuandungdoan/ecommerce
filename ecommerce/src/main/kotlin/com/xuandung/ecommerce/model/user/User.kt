@@ -1,4 +1,4 @@
-package com.xuandung.ecommerce.model
+package com.xuandung.ecommerce.model.user
 
 import javax.persistence.*
 
@@ -7,7 +7,7 @@ import javax.persistence.*
  class User (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long,
+    var id: Long?,
     var username:String,
     var password:String,
 )

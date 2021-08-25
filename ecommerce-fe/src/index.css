@@ -1,0 +1,21 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.absolute-x {
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+.absolute-y {
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.absolute-x.absolute-y {
+  transform: translate(-50%, -50%);
+}
+.content-container {
+  height: calc(100vh - theme("spacing.16"));
+}

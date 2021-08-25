@@ -19,3 +19,6 @@
 .content-container {
   height: calc(100vh - theme("spacing.16"));
 }
+.openUserMenu:hover .userMenu {
+  background-color: black !important;
+}

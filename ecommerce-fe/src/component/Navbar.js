@@ -1,9 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../features/counter/authSlice";
+
 const Navbar = () => {
   const stateLogged = useSelector((state) => state.auth.value);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const handleOpen = () => setIsOpen(!isOpen);
+
+  const dispatch = useDispatch();
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -79,13 +85,13 @@ const Navbar = () => {
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
                 {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-                <a
-                  href="#"
+                <Link
+                  to="dashboard"
                   className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                   aria-current="page"
                 >
                   Dashboard
-                </a>
+                </Link>
                 <a
                   href="#"
                   className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -109,7 +115,7 @@ const Navbar = () => {
           </div>
           {/* login  */}
 
-          {stateLogged ? Logged : notLoginYet}
+          {stateLogged ? Logged(dispatch, handleOpen, isOpen) : notLoginYet}
           {/* // logout */}
         </div>
       </div>
@@ -162,7 +168,7 @@ const notLoginYet = (
   </div>
 );
 
-const Logged = (
+const Logged = (dispatch, handleOpen, isOpen) => (
   <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
     <button
       type="button"
@@ -191,15 +197,16 @@ const Logged = (
       <div>
         <button
           type="button"
-          className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+          className="openUserMenu bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
           id="user-menu-button"
           aria-expanded="false"
           aria-haspopup="true"
+          onClick={handleOpen}
         >
           <span className="sr-only">Open user menu</span>
           <img
             className="h-8 w-8 rounded-full"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            src="https://thumbs.dreamstime.com/b/default-avatar-profile-vector-user-profile-default-avatar-profile-vector-user-profile-profile-179376714.jpg"
             alt=""
           />
         </button>
@@ -215,11 +222,16 @@ const Logged = (
               To: "transform opacity-0 scale-95"
           */}
       <div
-        className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+        className={
+          isOpen
+            ? " origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+            : "hidden"
+        }
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="user-menu-button"
         tabIndex={-1}
+        onClick={handleOpen}
       >
         {/* Active: "bg-gray-100", Not Active: "" */}
         <a
@@ -240,15 +252,15 @@ const Logged = (
         >
           Settings
         </a>
-        <a
-          href="#"
+        <button
+          onClick={() => dispatch(logout())}
           className="block px-4 py-2 text-sm text-gray-700"
           role="menuitem"
           tabIndex={-1}
           id="user-menu-item-2"
         >
           Sign out
-        </a>
+        </button>
       </div>
     </div>
   </div>

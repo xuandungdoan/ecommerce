@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
 class ExceptionHandler {
-    @ExceptionHandler(value = [(Exception::class)])
+    @ExceptionHandler(value = [MethodArgumentNotValidException::class])
     fun handleValidationExceptions(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String>> {
         val errors: MutableMap<String, String> = HashMap()
-        errors.put("message", ex.message)
+        errors["message"] = ex.message
         return ResponseEntity(errors, HttpStatus.BAD_REQUEST)
     }
 }

@@ -4,10 +4,12 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.xuandung.ecommerce.utils.Constant.Companion.SECRET_KEY
+import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.AuthenticationException
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import java.util.*
@@ -53,5 +55,18 @@ class CustomAuthenticationFilter(authenticationManager: AuthenticationManager) :
         bodyResponse["refresh_token"] = refreshToken
         response.contentType = APPLICATION_JSON_VALUE
         ObjectMapper().writeValue(response.outputStream, bodyResponse)
+    }
+
+    override fun unsuccessfulAuthentication(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        failed: AuthenticationException
+    ) {
+        val bodyResponse = mutableMapOf<String, String>()
+        bodyResponse["err_message"] = failed.message!!
+        response.status = 403
+        response.contentType = MediaType.APPLICATION_JSON_VALUE
+        ObjectMapper().writeValue(response.outputStream, bodyResponse)
+
     }
 }

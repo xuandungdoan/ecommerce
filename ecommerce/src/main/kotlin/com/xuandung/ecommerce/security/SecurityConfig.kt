@@ -30,11 +30,13 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity): Unit {
         val customAuthFilter = CustomAuthenticationFilter(authenticationManager())
         customAuthFilter.setFilterProcessesUrl("/users/login")
+        customAuthFilter.setPostOnly(true)
 
         http.csrf().disable()
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//        http.authorizeRequests().antMatchers("/users/login").permitAll()
+//        http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/login").permitAll()
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ROLE_USER")
+//              .antMatchers("/api/db").access("hasRole('ADMIN') or hasRole('DBA')").access("hasRole('ADMIN') or hasRole('DBA')")
         http.authorizeRequests().anyRequest().authenticated()
         http.addFilter(customAuthFilter)
         http.addFilterBefore(CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter::class.java)

@@ -34,7 +34,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
         http.csrf().disable()
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//        http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/login").permitAll()
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/users").hasAnyAuthority("ROLE_USER")
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ROLE_USER")
 //              .antMatchers("/api/db").access("hasRole('ADMIN') or hasRole('DBA')").access("hasRole('ADMIN') or hasRole('DBA')")
         http.authorizeRequests().anyRequest().authenticated()

@@ -37,8 +37,9 @@ class CustomAuthorizationFilter : OncePerRequestFilter() {
                             SimpleGrantedAuthority(it)
                         }
                     val authentication = UsernamePasswordAuthenticationToken(decodeToken.subject, null, authorities)
-                    authentication.details = WebAuthenticationDetailsSource().buildDetails(request);
+                    authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
                     SecurityContextHolder.getContext().authentication = authentication
+                    request.setAttribute("username", decodeToken.subject)
                     filterChain.doFilter(request, response)
                 } catch (e: Exception) {
                     logger.error("Error: ${e.message}")
@@ -49,7 +50,8 @@ class CustomAuthorizationFilter : OncePerRequestFilter() {
                     ObjectMapper().writeValue(response.outputStream, bodyResponse)
                 }
 
-            } else filterChain.doFilter(request, response)
+            }
+            else filterChain.doFilter(request, response)
         }
     }
 }

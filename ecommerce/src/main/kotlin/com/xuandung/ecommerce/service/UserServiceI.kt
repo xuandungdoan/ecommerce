@@ -8,4 +8,5 @@ interface UserServiceI {
     fun getAllUsers(): List<User>
     fun getUserById(id: Long): UserResponse
     fun createNewUser(registerReq: RegisterReq?): UserResponse
+    fun getUserByUsername(username: String): UserResponse
 }

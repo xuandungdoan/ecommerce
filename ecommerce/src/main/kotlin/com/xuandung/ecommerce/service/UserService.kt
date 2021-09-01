@@ -53,4 +53,10 @@ class UserService : UserServiceI, UserDetailsService {
         )
 
     }
+
+    override fun getUserByUsername(username: String): UserResponse {
+        val userFound = userRepository.findByUsername(username)
+        return UserResponse(userFound!!.username, userFound.id!!)
+
+    }
 }

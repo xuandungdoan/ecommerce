@@ -1,8 +1,10 @@
-package com.xuandung.ecommerce.service
+package com.xuandung.ecommerce.service.user
 
+import com.xuandung.ecommerce.model.cart.Cart
 import com.xuandung.ecommerce.model.user.RegisterReq
 import com.xuandung.ecommerce.model.user.User
 import com.xuandung.ecommerce.model.user.UserResponse
+import com.xuandung.ecommerce.repository.CartRepository
 import com.xuandung.ecommerce.repository.RoleRepository
 import com.xuandung.ecommerce.repository.UserRepository
 import com.xuandung.ecommerce.utils.Constant.Companion.ROLE_USER
@@ -20,7 +22,8 @@ import java.util.*
 class UserService : UserServiceI, UserDetailsService {
     @Autowired
     private lateinit var userRepository: UserRepository
-
+    @Autowired
+    private lateinit var cartRepository: CartRepository
     @Autowired
     private lateinit var roleRepository: RoleRepository
     override fun getAllUsers(): List<User> {
@@ -35,6 +38,7 @@ class UserService : UserServiceI, UserDetailsService {
     override fun createNewUser(registerReq: RegisterReq?): UserResponse {
         val role = roleRepository.findByName(ROLE_USER)
         val userSaved = userRepository.saveAndFlush(User(null, registerReq!!.username, registerReq!!.password, role))
+        cartRepository.save(Cart(null,userSaved,null))
         return UserResponse(userSaved.username, userSaved.id!!)
     }
 

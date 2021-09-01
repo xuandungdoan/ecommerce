@@ -1,5 +1,6 @@
 package com.xuandung.ecommerce.security
 
+import com.xuandung.ecommerce.repository.UserRepository
 import com.xuandung.ecommerce.security.filter.CustomAuthenticationFilter
 import com.xuandung.ecommerce.security.filter.CustomAuthorizationFilter
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Autowired
     lateinit var userDetailsService: UserDetailsService
-
+    @Autowired
+    lateinit var userRepository: UserRepository
     @Autowired
     lateinit var bCryptPasswordEncoder: PasswordEncoder
     override fun configure(auth: AuthenticationManagerBuilder) {
@@ -34,12 +36,14 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
         http.csrf().disable()
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/register").permitAll()
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/users").hasAnyAuthority("ROLE_USER")
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ROLE_USER")
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"/cart/add").hasAnyAuthority("ROLE_USER")
 //              .antMatchers("/api/db").access("hasRole('ADMIN') or hasRole('DBA')").access("hasRole('ADMIN') or hasRole('DBA')")
         http.authorizeRequests().anyRequest().authenticated()
         http.addFilter(customAuthFilter)
-        http.addFilterBefore(CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter::class.java)
+        http.addFilterBefore(CustomAuthorizationFilter(userRepository), UsernamePasswordAuthenticationFilter::class.java)
     }
 
 

@@ -1,4 +1,4 @@
-package com.xuandung.ecommerce.service
+package com.xuandung.ecommerce.service.user
 
 import com.xuandung.ecommerce.model.user.RegisterReq
 import com.xuandung.ecommerce.model.user.User

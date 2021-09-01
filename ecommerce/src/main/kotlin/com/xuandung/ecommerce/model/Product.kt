@@ -10,7 +10,7 @@ import javax.persistence.Table
 class Product(
     @Id
     @GeneratedValue
-    val id: Long,
+    val id: Long?,
     val name: String,
     val raw_price: Long,
     val sale_price: Long,

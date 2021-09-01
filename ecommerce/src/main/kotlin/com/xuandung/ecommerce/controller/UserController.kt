@@ -3,7 +3,7 @@ package com.xuandung.ecommerce.controller
 import com.xuandung.ecommerce.model.user.RegisterReq
 import com.xuandung.ecommerce.model.user.User
 import com.xuandung.ecommerce.model.user.UserResponse
-import com.xuandung.ecommerce.service.UserServiceI
+import com.xuandung.ecommerce.service.user.UserServiceI
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

@@ -25,6 +25,7 @@ class InitData(var roleRepository: RoleRepository, var userRepository: UserRepos
         roleRepository.saveAll(listOf(Role(null, Constant.ROLE_USER), Role(null, Constant.ROLE_ADMIN)))
       val user=  userRepository.save(User(null,"a",passwordEncoder().encode("a"),Role(1,Constant.ROLE_USER)))
         productRepository.save(Product(null,"product_sample",10,9,"full des","short des"))
+        productRepository.save(Product(null,"product_sample2",10,9,"full des","short des"))
         cartRepository.save(Cart(null,user,null))
     }
     @Bean

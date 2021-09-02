@@ -1,4 +1,4 @@
-package com.xuandung.ecommerce.exceptionhandler
+package com.xuandung.ecommerce.customexception
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
 class ExceptionHandler {
-    @ExceptionHandler(value = [MethodArgumentNotValidException::class])
-    fun handleValidationExceptions(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String>> {
+    @ExceptionHandler(value = [MethodArgumentNotValidException::class, InvalidArgs::class])
+    fun handleValidationExceptions(ex: Exception): ResponseEntity<Map<String, String>> {
         val errors: MutableMap<String, String> = HashMap()
-        errors["message"] = ex.message
+        errors["message"] = ex.message!!
         return ResponseEntity(errors, HttpStatus.BAD_REQUEST)
     }
 }

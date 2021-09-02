@@ -32,14 +32,16 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity): Unit {
         val customAuthFilter = CustomAuthenticationFilter(authenticationManager())
-        customAuthFilter.setFilterProcessesUrl("/users/login")
+        customAuthFilter.setFilterProcessesUrl("/user/login")
         customAuthFilter.setPostOnly(true)
 
         http.csrf().disable()
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/register").permitAll()
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/users").hasAnyAuthority("ROLE_USER")
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ROLE_USER")
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/user/register").permitAll()
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/product/**").permitAll()
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/product").permitAll()
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/user").hasAnyAuthority("ROLE_USER")
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").hasAnyAuthority("ROLE_USER")
         http.authorizeRequests().antMatchers("/cart/**").hasAnyAuthority("ROLE_USER")
         http.authorizeRequests().antMatchers("/order").hasAnyAuthority("ROLE_USER")
 //              .antMatchers("/api/db").access("hasRole('ADMIN') or hasRole('DBA')").access("hasRole('ADMIN') or hasRole('DBA')")

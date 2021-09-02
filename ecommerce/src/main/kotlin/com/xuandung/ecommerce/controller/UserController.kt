@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 class UserController {
     @Autowired
     lateinit var userService: UserServiceI

@@ -15,7 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
+import org.springframework.validation.annotation.Validated
 import java.util.*
+import javax.validation.Valid
 
 @Service
 @Slf4j
@@ -35,9 +37,9 @@ class UserService : UserServiceI, UserDetailsService {
         return UserResponse(user.get().username, user.get().id!!)
     }
 
-    override fun createNewUser(registerReq: RegisterReq?): UserResponse {
+    override fun createNewUser( registerReq: RegisterReq?): UserResponse {
         val role = roleRepository.findByName(ROLE_USER)
-        val userSaved = userRepository.saveAndFlush(User(null, registerReq!!.username, registerReq!!.password, role))
+        val userSaved = userRepository.save(User(null, registerReq!!.username, registerReq.password, role))
         cartRepository.save(Cart(null,userSaved,null))
         return UserResponse(userSaved.username, userSaved.id!!)
     }

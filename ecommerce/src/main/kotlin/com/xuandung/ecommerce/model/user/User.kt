@@ -11,6 +11,7 @@ class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long?,
+    @Column(unique=true)
     var username: String,
     @JsonIgnore
     var password: String,

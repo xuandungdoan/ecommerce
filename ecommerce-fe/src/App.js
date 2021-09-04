@@ -12,7 +12,7 @@ import { Counter } from "./features/counter/Counter";
 import { useSelector } from "react-redux";
 
 function App() {
-  const auth = useSelector((state) => state.auth.value);
+  const status_login = useSelector((state) => state.auth.status_login);
   return (
     // <div className="App">
     //   <LoginPage />
@@ -24,7 +24,7 @@ function App() {
           <Route path="/dashboard">
             <Counter />
           </Route>
-          {!auth ? (
+          {!status_login ? (
             <Fragment>
               <Route path="/login">
                 <LoginPage />

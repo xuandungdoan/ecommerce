@@ -33,6 +33,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.springframework.boot:spring-boot-starter-validation:2.5.2")
+    implementation("com.jayway.jsonpath:json-path:2.4.0")
 
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("mysql:mysql-connector-java")

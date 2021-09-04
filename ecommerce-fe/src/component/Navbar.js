@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { logout } from "../features/counter/authSlice";
 
 const Navbar = () => {
-  const stateLogged = useSelector((state) => state.auth.value);
+  const stateLogged = useSelector((state) => state.auth.status_login);
 
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(!isOpen);

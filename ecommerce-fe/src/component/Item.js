@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Item() {
+export default function Item(name, raw_price, sale_price) {
   return (
     <div className="w-full md:w-1/3 p-8">
       <div className="bg-white shadow-lg hover:shadow-xl rounded-lg ">

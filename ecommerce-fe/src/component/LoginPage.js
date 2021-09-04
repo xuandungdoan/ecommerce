@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { login, logout } from "../features/counter/authSlice";
+import { login, logout, userLogin } from "../features/counter/authSlice";
 import LoginForm from "./LoginForm";
 
 const LoginPage = () => {
@@ -23,7 +23,12 @@ const LoginPage = () => {
             Sign up
           </Link>
         </p>
-        <LoginForm onSubmit={() => dispatch(login())} />
+        <LoginForm
+          onSubmit={(data) => {
+            console.log("login form: " + JSON.stringify(data));
+            dispatch(userLogin(data));
+          }}
+        />
       </section>
     </div>
   );

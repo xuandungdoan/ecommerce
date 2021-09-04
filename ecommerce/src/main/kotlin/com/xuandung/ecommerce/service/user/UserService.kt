@@ -1,5 +1,6 @@
 package com.xuandung.ecommerce.service.user
 
+import com.xuandung.ecommerce.customexception.InvalidArgs
 import com.xuandung.ecommerce.model.cart.Cart
 import com.xuandung.ecommerce.model.user.RegisterReq
 import com.xuandung.ecommerce.model.user.User
@@ -14,18 +15,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import org.springframework.validation.annotation.Validated
 import java.util.*
-import javax.validation.Valid
 
 @Service
 @Slf4j
 class UserService : UserServiceI, UserDetailsService {
     @Autowired
     private lateinit var userRepository: UserRepository
+
     @Autowired
     private lateinit var cartRepository: CartRepository
+
+    @Autowired
+    private lateinit var passwordEncoder: PasswordEncoder
+
     @Autowired
     private lateinit var roleRepository: RoleRepository
     override fun getAllUsers(): List<User> {
@@ -37,10 +42,15 @@ class UserService : UserServiceI, UserDetailsService {
         return UserResponse(user.get().username, user.get().id!!)
     }
 
-    override fun createNewUser( registerReq: RegisterReq?): UserResponse {
+    override fun createNewUser(registerReq: RegisterReq?): UserResponse {
+        val userExist = userRepository.findByUsername(registerReq!!.username)
+        if (userExist?.id != null) {
+            throw InvalidArgs("username is duplicate")
+        }
+
         val role = roleRepository.findByName(ROLE_USER)
-        val userSaved = userRepository.save(User(null, registerReq!!.username, registerReq.password, role))
-        cartRepository.save(Cart(null,userSaved,null))
+        val userSaved = userRepository.save(User(null, registerReq!!.username, passwordEncoder.encode(registerReq.password), role))
+        cartRepository.save(Cart(null, userSaved, null))
         return UserResponse(userSaved.username, userSaved.id!!)
     }
 

@@ -12,7 +12,7 @@ class ExceptionHandler {
     @ExceptionHandler(value = [InvalidArgs::class])
     fun handleInvalidArgument(ex: InvalidArgs): ResponseEntity<Map<String, String>> {
         val errors: MutableMap<String, String> = HashMap()
-        errors["message"] = ex.message!!
+        errors["err_message"] = ex.message!!
         return ResponseEntity(errors, HttpStatus.BAD_REQUEST)
     }
 

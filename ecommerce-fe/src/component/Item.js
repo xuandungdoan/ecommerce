@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Item(name, raw_price, sale_price) {
   return (
-    <div className="w-full md:w-1/3 p-8">
+    <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4">
       <div className="bg-white shadow-lg hover:shadow-xl rounded-lg ">
         <div
           className="bg-gray-400 h-64 rounded-t-lg p-4 bg-no-repeat bg-center bg-cover"
@@ -39,9 +39,9 @@ export default function Item(name, raw_price, sale_price) {
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center px-2 pb-2">
+        <div className="flex justify-center items-center px-2 pb-2 flex-col xl:flex-row">
           <div className="w-1/2 p-2">
-            <button className="block w-full bg-teal-500 hover:bg-teal-600 text-black border-2 border-teal-500 hover:border-teal-600 px-3 py-2 rounded uppercase font-poppins font-medium flex  justify-center items-center">
+            <button className="text-xs xl:text-sm block w-full bg-teal-500 hover:bg-teal-600 text-black border-2 border-teal-500 hover:border-teal-600 px-3 py-2 rounded uppercase font-poppins font-medium flex  justify-center items-center">
               <svg viewBox="0 0 24 24" className="inline mr-1 w-4 h-4">
                 <path
                   fill="currentColor"
@@ -53,7 +53,7 @@ export default function Item(name, raw_price, sale_price) {
           </div>
           <div className="w-1/2 p-2">
             <button
-              className="block w-full bg-white 
+              className="flex-shrink-0 text-xs xl:text-sm block w-full bg-white 
     hover:bg-gray-100 text-teal-500 border-2 border-teal-500 px-3 py-2 rounded uppercase font-poppins font-medium"
             >
               Add to cart

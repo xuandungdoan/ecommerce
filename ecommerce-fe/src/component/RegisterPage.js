@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { login, logout, userRegister } from "../features/counter/authSlice";
+import { userRegisterAction } from "../features/counter/authSlice";
 import RegisterForm from "./RegisterForm";
 import { Loading } from "./ReuseComponent";
 
@@ -19,7 +19,7 @@ const RegisterPage = () => {
             Sign in
           </Link>
         </p>
-        <RegisterForm onSubmit={(e) => dispatch(userRegister(e))} />
+        <RegisterForm onSubmit={(e) => dispatch(userRegisterAction(e))} />
       </section>
     </div>
   );

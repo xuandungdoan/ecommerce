@@ -20,7 +20,7 @@ export const renderField = ({
         {...input}
         className="shadow appearance-none border border-gray-600 rounded w-full py-2 px-3 text-gray-700 leading-tight "
         placeholder={label}
-        type={label == "Password" || label == "Confirm" ? "password" : type}
+        type={label === "Password" || label === "Confirm" ? "password" : type}
       />
       {touched &&
         ((error && (

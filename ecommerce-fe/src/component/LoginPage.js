@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { login, logout, userLogin } from "../features/counter/authSlice";
+import { userLoginAction } from "../features/counter/authSlice";
 import LoginForm from "./LoginForm";
 import "react-toastify/dist/ReactToastify.css";
 import { Loading } from "./ReuseComponent";
-import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const auth = useSelector((state) => state.auth);
@@ -24,8 +23,7 @@ const LoginPage = () => {
         </p>
         <LoginForm
           onSubmit={(data) => {
-            console.log("login form: " + JSON.stringify(data));
-            dispatch(userLogin(data));
+            dispatch(userLoginAction(data));
           }}
         />
       </section>

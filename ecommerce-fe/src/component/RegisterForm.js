@@ -41,15 +41,6 @@ const RegisterForm = (props) => {
               fieldLabel: "Password",
             })}
           />
-
-          {/* <Field
-            name="age"
-            type="number"
-            component={renderField}
-            label="Age"
-            validate={composeValidators(required, number, minValue18)}
-            warn={tooOld}
-          /> */}
           <div>
             <button
               type="submit"

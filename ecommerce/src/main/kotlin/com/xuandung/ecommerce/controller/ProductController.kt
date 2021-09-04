@@ -19,7 +19,7 @@ class ProductController {
         return ResponseEntity.ok(productService.getProducts(page, size))
     }
 
-    @PostMapping("/{id}")
+    @GetMapping("/{id}")
     fun getProductDetail(
         @PathVariable id: Long
     ): ResponseEntity<Product> {

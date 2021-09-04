@@ -1,6 +1,8 @@
 import React from "react";
 
-export default function Item(name, raw_price, sale_price) {
+export default function Item(props) {
+  const { name, raw_price, sale_price, short_des } = props;
+
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4">
       <div className="bg-white shadow-lg hover:shadow-xl rounded-lg ">
@@ -27,15 +29,15 @@ export default function Item(name, raw_price, sale_price) {
         </div>
         <div className="flex justify-between items-start px-2 pt-2">
           <div className="p-2 flex-grow">
-            <h1 className="font-medium text-xl font-poppins">Lan Anh</h1>
-            <p className="text-gray-500 font-nunito">dumb girl</p>
+            <h1 className="font-medium text-xl font-poppins">{name}</h1>
+            <p className="text-gray-500 font-nunito">{short_des}</p>
           </div>
           <div className="p-2 text-right">
             <div className="text-teal-500 font-semibold text-lg font-poppins">
-              $1
+              ${sale_price}
             </div>
             <div className="text-xs text-gray-500 line-through font-poppins">
-              $100
+              ${raw_price}
             </div>
           </div>
         </div>

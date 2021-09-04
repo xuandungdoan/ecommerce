@@ -8,22 +8,19 @@ import {
 import LoginPage from "./component/LoginPage";
 import RegisterPage from "./component/RegisterPage";
 import Navbar from "./component/Navbar";
-import { Counter } from "./features/counter/Counter";
+import { HomePage } from "./component/HomePage";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
 function App() {
   const status_login = useSelector((state) => state.auth.status_login);
   return (
-    // <div className="App">
-    //   <LoginPage />
-    // </div>
     <Fragment>
       <Router>
         <Navbar />
         <Switch>
-          <Route path="/dashboard">
-            <Counter />
+          <Route path="/homePage">
+            <HomePage />
           </Route>
           {!status_login ? (
             <Fragment>
@@ -36,7 +33,7 @@ function App() {
               <Redirect to="/login" />
             </Fragment>
           ) : (
-            <Redirect to="/dashboard" />
+            <Redirect to="/homePage" />
           )}
         </Switch>
         <ToastContainer

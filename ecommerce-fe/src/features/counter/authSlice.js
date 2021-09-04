@@ -6,7 +6,7 @@ const initialState = {
   status_login: localStorage.getItem("access_token") ? true : false,
   loading: false,
 };
-export const userLogin = createAsyncThunk(
+export const userLoginAction = createAsyncThunk(
   "user/login",
   async (data, ThunkAPI) => {
     try {
@@ -20,20 +20,16 @@ export const userLogin = createAsyncThunk(
     }
   }
 );
-export const userRegister = createAsyncThunk(
+export const userRegisterAction = createAsyncThunk(
   "user/register",
   async (data, ThunkAPI) => {
-    console.log("run this" + JSON.stringify(data));
     try {
       const response = await userApi.register({
         username: data.username,
         password: data.password,
       });
-      console.log("what is going on?");
-      console.log(response);
       return response.data;
     } catch (err) {
-      console.log("erro in here?" + JSON.stringify(err.response.data));
       if (!err.response) {
         return ThunkAPI.rejectWithValue({ err_message: "Network Error" });
       }
@@ -52,34 +48,33 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: {
-    [userLogin.pending]: (state, action) => {
+    [userLoginAction.pending]: (state, action) => {
       state.loading = true;
     },
-    [userLogin.fulfilled]: (state, action) => {
+    [userLoginAction.fulfilled]: (state, action) => {
       state.loading = false;
       state.status_login = true;
       localStorage.setItem("access_token", action.payload.access_token);
       localStorage.setItem("refresh_token", action.payload.refresh_token);
     },
-    [userLogin.rejected]: (state, action) => {
+    [userLoginAction.rejected]: (state, action) => {
       state.loading = false;
-      console.log("fds" + action.payload.err_message);
       toast.error(action.payload.err_message);
     },
-    [userRegister.pending]: (state, action) => {
+    [userRegisterAction.pending]: (state, action) => {
       state.loading = true;
     },
-    [userRegister.fulfilled]: (state, action) => {
+    [userRegisterAction.fulfilled]: (state, action) => {
       state.loading = false;
       toast.success("register success");
     },
-    [userRegister.rejected]: (state, action) => {
+    [userRegisterAction.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action.payload.err_message);
     },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

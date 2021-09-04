@@ -27,7 +27,7 @@ class CustomAuthorizationFilter(var userRepository: UserRepository) : OncePerReq
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        if (request.servletPath.equals("/users/login")) filterChain.doFilter(request, response)
+        if (request.servletPath.equals("/login")) filterChain.doFilter(request, response)
         else {
             val authorizationHeader = request.getHeader(AUTHORIZATION)
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {

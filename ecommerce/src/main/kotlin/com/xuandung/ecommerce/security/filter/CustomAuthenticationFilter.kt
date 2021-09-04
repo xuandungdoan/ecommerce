@@ -3,6 +3,8 @@ package com.xuandung.ecommerce.security.filter
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.jayway.jsonpath.DocumentContext
+import com.jayway.jsonpath.JsonPath
 import com.xuandung.ecommerce.utils.Constant.Companion.SECRET_KEY
 import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
@@ -18,14 +20,25 @@ import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+
 class CustomAuthenticationFilter(authenticationManager: AuthenticationManager) :
     UsernamePasswordAuthenticationFilter() {
     private val authManager: AuthenticationManager = authenticationManager
 
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse): Authentication {
-        val authenticationToken =
-            UsernamePasswordAuthenticationToken(request.getParameter("username"), request.getParameter("password"))
-        return authManager.authenticate(authenticationToken)
+        var authRequest: UsernamePasswordAuthenticationToken
+        try {
+            request.inputStream.use {
+                val context: DocumentContext = JsonPath.parse(it)
+                val username: String = context.read("$.username", String::class.java)
+                val password: String = context.read("$.password", String::class.java)
+                authRequest = UsernamePasswordAuthenticationToken(username, password)
+            }
+        } catch (e: Exception) {
+            authRequest = UsernamePasswordAuthenticationToken("", "")
+        }
+        setDetails(request, authRequest)
+        return authManager.authenticate(authRequest)
     }
 
     override fun successfulAuthentication(

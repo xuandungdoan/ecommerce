@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
 import { required, length, confirmation } from "redux-form-validators";
+import { passwordValidator, renderField } from "./ReuseComponent";
 
 const composeValidators =
   (...validators) =>
@@ -9,38 +10,6 @@ const composeValidators =
       (error, validator) => error || validator(value),
       undefined
     );
-
-const renderField = ({
-  input,
-  label,
-  type,
-  meta: { touched, error, warning },
-}) => (
-  <div className="mt-3">
-    <label className="block text-gray-700 text-sm font-semibold mb-2">
-      {label}
-    </label>
-    <div>
-      <input
-        {...input}
-        className="shadow appearance-none border border-gray-600 rounded w-full py-2 px-3 text-gray-700 leading-tight "
-        placeholder={label}
-        type={type}
-      />
-      {touched &&
-        ((error && (
-          <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 ">
-            {error}
-          </span>
-        )) ||
-          (warning && (
-            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-              {warning}
-            </span>
-          )))}
-    </div>
-  </div>
-);
 
 const RegisterForm = (props) => {
   const { onSubmit } = props;
@@ -60,7 +29,7 @@ const RegisterForm = (props) => {
             type="password"
             label="Password"
             component={renderField}
-            validate={composeValidators(required(), length({ max: 15 }))}
+            validate={composeValidators(required(), passwordValidator())}
           />
           <Field
             name="Confirm"

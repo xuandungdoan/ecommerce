@@ -10,6 +10,7 @@ import RegisterPage from "./component/RegisterPage";
 import Navbar from "./component/Navbar";
 import { Counter } from "./features/counter/Counter";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const status_login = useSelector((state) => state.auth.status_login);
@@ -38,6 +39,19 @@ function App() {
             <Redirect to="/dashboard" />
           )}
         </Switch>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          limit={1}
+          theme="dark"
+        />
       </Router>
     </Fragment>
   );

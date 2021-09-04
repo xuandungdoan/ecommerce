@@ -22,3 +22,8 @@
 .openUserMenu:hover .userMenu {
   background-color: black !important;
 }
+.loader-spin {
+  border: 0.7rem solid #cad49d;
+  border-radius: 50%;
+  border-top: 0.7rem solid #484538;
+}

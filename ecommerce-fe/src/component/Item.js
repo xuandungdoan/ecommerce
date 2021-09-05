@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Item(props) {
   const { name, raw_price, sale_price, short_des } = props;
@@ -43,7 +44,10 @@ export default function Item(props) {
         </div>
         <div className="flex justify-center items-center px-2 pb-2 flex-col xl:flex-row">
           <div className="w-1/2 p-2">
-            <button className="text-xs xl:text-sm block w-full bg-teal-500 hover:bg-teal-600 text-black border-2 border-teal-500 hover:border-teal-600 px-3 py-2 rounded uppercase font-poppins font-medium flex  justify-center items-center">
+            <Link
+              to={`/products/${props.id}`}
+              className="text-xs xl:text-sm block w-full bg-teal-500 hover:bg-teal-600 text-black border-2 border-teal-500 hover:border-teal-600 px-3 py-2 rounded uppercase font-poppins font-medium flex  justify-center items-center"
+            >
               <svg viewBox="0 0 24 24" className="inline mr-1 w-4 h-4">
                 <path
                   fill="currentColor"
@@ -51,7 +55,7 @@ export default function Item(props) {
                 />
               </svg>{" "}
               Details
-            </button>
+            </Link>
           </div>
           <div className="w-1/2 p-2">
             <button

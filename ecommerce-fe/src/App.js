@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, Suspense } from "react";
 import {
   Redirect,
   Route,
@@ -11,6 +11,9 @@ import Navbar from "./component/Navbar";
 import { HomePage } from "./component/HomePage";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import ProductPage from "./component/ProductPage";
+import Footer from "./component/Footer";
+import { Loading } from "./component/ReuseComponent";
 
 function App() {
   const status_login = useSelector((state) => state.auth.status_login);
@@ -22,6 +25,7 @@ function App() {
           <Route path="/homePage">
             <HomePage />
           </Route>
+          <Route path="/products/:id" component={ProductPage} />
           {!status_login ? (
             <Fragment>
               <Route path="/login">
@@ -36,6 +40,7 @@ function App() {
             <Redirect to="/homePage" />
           )}
         </Switch>
+        <Footer />
         <ToastContainer
           position="bottom-center"
           autoClose={3000}

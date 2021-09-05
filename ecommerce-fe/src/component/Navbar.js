@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../features/counter/authSlice";
@@ -10,6 +10,21 @@ const Navbar = () => {
   const handleOpen = () => setIsOpen(!isOpen);
 
   const dispatch = useDispatch();
+  const menuUserRef = useRef(null);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuUserRef.current && !menuUserRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuUserRef]);
   return (
     <nav className="bg-gray-800">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -24,12 +39,7 @@ const Navbar = () => {
             >
               <span className="sr-only">Open main menu</span>
               {/*
-            Icon when menu is closed.
-
-            Heroicon name: outline/menu
-
-            Menu open: "hidden", Menu closed: "block"
-          */}
+               */}
               <svg
                 className="block sm:hidden h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +96,7 @@ const Navbar = () => {
               <div className="flex space-x-4">
                 {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                 <Link
-                  to="homePage"
+                  to="/homePage"
                   className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                   aria-current="page"
                 >
@@ -114,8 +124,9 @@ const Navbar = () => {
             </div>
           </div>
           {/* login  */}
-
-          {stateLogged ? Logged(dispatch, handleOpen, isOpen) : notLoginYet}
+          {stateLogged
+            ? Logged(dispatch, handleOpen, isOpen, menuUserRef)
+            : notLoginYet}
           {/* // logout */}
         </div>
       </div>
@@ -155,7 +166,7 @@ const Navbar = () => {
 };
 
 const notLoginYet = (
-  <div className="hidden sm:block sm:ml-6">
+  <div className="hidden sm:block sm:ml-3">
     <div className="flex space-x-4">
       {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
       <Link
@@ -168,8 +179,24 @@ const notLoginYet = (
   </div>
 );
 
-const Logged = (dispatch, handleOpen, isOpen) => (
-  <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+const Logged = (dispatch, handleOpen, isOpen, menuUserRef) => (
+  <div className="justify-center right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-3 sm:pr-0">
+    <div className="space-x-1 mt-1 pt-1 mr-2">
+      <button className="text-white focus:outline-none ">
+        <svg
+          className="h-5 w-7"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      </button>
+    </div>
+
     <button
       type="button"
       className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
@@ -193,7 +220,7 @@ const Logged = (dispatch, handleOpen, isOpen) => (
       </svg>
     </button>
     {/* Profile dropdown */}
-    <div className="ml-3 relative">
+    <div className="ml-3 relative" ref={menuUserRef}>
       <div>
         <button
           type="button"

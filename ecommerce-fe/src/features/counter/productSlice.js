@@ -4,6 +4,7 @@ import { productApi } from "../../api/productApi";
 
 const initialState = {
   products: [],
+  productDetail: {},
   loading: false,
 };
 export const getProductsAction = createAsyncThunk(
@@ -56,6 +57,7 @@ export const productSlice = createSlice({
     },
     [getProductDetailAction.fulfilled]: (state, action) => {
       state.loading = false;
+      state.productDetail = action.payload;
     },
     [getProductDetailAction.rejected]: (state, action) => {
       state.loading = false;

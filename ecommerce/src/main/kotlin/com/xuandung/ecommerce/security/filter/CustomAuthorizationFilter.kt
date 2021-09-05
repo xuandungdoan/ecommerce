@@ -48,7 +48,6 @@ class CustomAuthorizationFilter(var userRepository: UserRepository) : OncePerReq
                     request.setAttribute("userId", user!!.id)
                     filterChain.doFilter(request, response)
                 } catch (e: Exception) {
-                    println("Error: ${e.message}")
                     val bodyResponse = mutableMapOf<String, String>()
                     bodyResponse["err_message"] = e.message!!
                     response.status = 403

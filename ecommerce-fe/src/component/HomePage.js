@@ -15,16 +15,7 @@ export function HomePage() {
     <div className="flex flex-wrap">
       {products &&
         products.map((i) => {
-          return (
-            <Item
-              key={i.id}
-              id={i.id}
-              name={i.name}
-              raw_price={i.raw_price}
-              sale_price={i.sale_price}
-              short_des={i.short_des}
-            />
-          );
+          return <Item key={i.id} product={i} />;
         })}
     </div>
   );

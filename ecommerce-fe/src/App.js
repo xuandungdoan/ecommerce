@@ -1,4 +1,4 @@
-import { Fragment, Suspense } from "react";
+import { Fragment } from "react";
 import {
   Redirect,
   Route,
@@ -13,10 +13,13 @@ import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import ProductPage from "./component/ProductPage";
 import Footer from "./component/Footer";
-import { Loading } from "./component/ReuseComponent";
+import { getCartAction } from "./features/counter/cartSlice";
+import { useDispatch } from "react-redux";
 
 function App() {
   const status_login = useSelector((state) => state.auth.status_login);
+  const dispatch = useDispatch();
+  status_login && dispatch(getCartAction());
   return (
     <Fragment>
       <Router>

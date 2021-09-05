@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { addItem, addItemAction } from "../features/counter/cartSlice";
 import { getProductDetailAction } from "../features/counter/productSlice";
 import { MoreProductItem } from "./MoreProductItem";
 import { Loading } from "./ReuseComponent";
@@ -9,7 +10,7 @@ export default function ProductPage(props) {
   const product = useSelector((state) => state.product);
   const productDetail = product.productDetail;
   let products = product.products;
-  products = products.filter((i) => i.id != props.match.params.id);
+  products = products.filter((i) => i.id !== props.match.params.id);
   const dispatch = useDispatch();
 
   const [quantity, setQuantity] = useState(1);
@@ -44,23 +45,6 @@ export default function ProductPage(props) {
                 </label>
                 <div className="flex items-center mt-1">
                   <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="text-gray-500 focus:outline-none focus:text-gray-600"
-                  >
-                    <svg
-                      className="h-5 w-5"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </button>
-                  <span className="text-gray-700 text-lg mx-2">{quantity}</span>
-                  <button
                     onClick={() => {
                       if (quantity > 1) setQuantity(quantity - 1);
                     }}
@@ -76,6 +60,23 @@ export default function ProductPage(props) {
                       stroke="currentColor"
                     >
                       <path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </button>
+                  <span className="text-gray-700 text-lg mx-2">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="text-gray-500 focus:outline-none focus:text-gray-600"
+                  >
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </button>
                 </div>
@@ -143,6 +144,25 @@ export default function ProductPage(props) {
               hover:bg-gray-200
               focus:outline-none
             "
+                  onClick={() => {
+                    setQuantity(1);
+                    dispatch(
+                      addItem({
+                        productId: productDetail.id,
+                        quantity: quantity,
+                        price: productDetail.sale_price,
+                        add: true,
+                      })
+                    );
+                    dispatch(
+                      addItemAction({
+                        productId: productDetail.id,
+                        quantity: quantity,
+                        price: productDetail.sale_price,
+                        add: true,
+                      })
+                    );
+                  }}
                 >
                   <svg
                     className="h-5 w-5"

@@ -5,6 +5,7 @@ import { logout } from "../features/counter/authSlice";
 
 const Navbar = () => {
   const stateLogged = useSelector((state) => state.auth.status_login);
+  const cartList = useSelector((state) => state.cart.cartList);
 
   const [isOpen, setIsOpen] = useState(false);
   const handleOpen = () => setIsOpen(!isOpen);
@@ -125,7 +126,18 @@ const Navbar = () => {
           </div>
           {/* login  */}
           {stateLogged
-            ? Logged(dispatch, handleOpen, isOpen, menuUserRef)
+            ? Logged(
+                dispatch,
+                handleOpen,
+                isOpen,
+                menuUserRef,
+                cartList.cartDetailList
+                  ? cartList.cartDetailList.reduce(
+                      (a, b) => a + b["quantity"],
+                      0
+                    )
+                  : 0
+              )
             : notLoginYet}
           {/* // logout */}
         </div>
@@ -179,9 +191,18 @@ const notLoginYet = (
   </div>
 );
 
-const Logged = (dispatch, handleOpen, isOpen, menuUserRef) => (
+const Logged = (dispatch, handleOpen, isOpen, menuUserRef, cart) => (
   <div className="justify-center right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-3 sm:pr-0">
     <div className="space-x-1 mt-1 pt-1 mr-2">
+      {cart > 0 && (
+        <div
+          className={`text-xs absolute font-bold top-2 right-13 ${
+            cart > 100 ? "w-6.5 h-4" : " w-4 h-4"
+          } text-center rounded bg-gray-300`}
+        >
+          {cart > 100 ? "99+" : cart}
+        </div>
+      )}
       <button className="text-white focus:outline-none ">
         <svg
           className="h-5 w-7"
@@ -251,7 +272,7 @@ const Logged = (dispatch, handleOpen, isOpen, menuUserRef) => (
       <div
         className={
           isOpen
-            ? " origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+            ? " origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none "
             : "hidden"
         }
         role="menu"
@@ -263,7 +284,7 @@ const Logged = (dispatch, handleOpen, isOpen, menuUserRef) => (
         {/* Active: "bg-gray-100", Not Active: "" */}
         <a
           href="/#"
-          className="block px-4 py-2 text-sm text-gray-700"
+          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           role="menuitem"
           tabIndex={-1}
           id="user-menu-item-0"
@@ -272,22 +293,22 @@ const Logged = (dispatch, handleOpen, isOpen, menuUserRef) => (
         </a>
         <a
           href="/#"
-          className="block px-4 py-2 text-sm text-gray-700"
+          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           role="menuitem"
           tabIndex={-1}
           id="user-menu-item-1"
         >
           Settings
         </a>
-        <button
+        <div
           onClick={() => dispatch(logout())}
-          className="block px-4 py-2 text-sm text-gray-700"
+          className=" px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
           role="menuitem"
           tabIndex={-1}
           id="user-menu-item-2"
         >
           Sign out
-        </button>
+        </div>
       </div>
     </div>
   </div>

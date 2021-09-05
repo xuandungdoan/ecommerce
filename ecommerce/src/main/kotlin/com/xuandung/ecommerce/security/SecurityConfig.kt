@@ -15,9 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import org.springframework.web.filter.CorsFilter
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
@@ -50,28 +47,13 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         http.authorizeRequests().antMatchers("/order").hasAnyAuthority("ROLE_USER")
 //              .antMatchers("/api/db").access("hasRole('ADMIN') or hasRole('DBA')").access("hasRole('ADMIN') or hasRole('DBA')")
         http.authorizeRequests().anyRequest().authenticated()
+
         http.addFilter(CustomAuthenticationFilter(authenticationManager()))
         http.addFilterBefore(
             CustomAuthorizationFilter(userRepository),
             UsernamePasswordAuthenticationFilter::class.java
         )
     }
-
-//    @Bean
-//    fun corsFilter(): CorsFilter {
-//        val source = UrlBasedCorsConfigurationSource()
-//        val config = CorsConfiguration()
-//        config.allowCredentials = true
-//        config.addAllowedOrigin("*")
-//        config.addAllowedHeader("*")
-//        config.addAllowedMethod("OPTIONS")
-//        config.addAllowedMethod("GET")
-//        config.addAllowedMethod("POST")
-//        config.addAllowedMethod("PUT")
-//        config.addAllowedMethod("DELETE")
-//        source.registerCorsConfiguration("/**", config)
-//        return CorsFilter(source)
-//    }
 
     @Bean
     fun cors(): WebMvcConfigurer {
